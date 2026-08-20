@@ -65,7 +65,7 @@
         const geoData = await geoRes.json();
         
         const addr = geoData.address;
-        const rawText = JSON.stringify(geoData.address || {});
+        const city = "Akaa";
         let city = "Akaa";
         if (rawText.includes("Toijala")) city = "Toijala";
         else if (rawText.includes("Viiala")) city = "Viiala";

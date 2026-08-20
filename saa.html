@@ -65,7 +65,8 @@
         const geoData = await geoRes.json();
         
         const addr = geoData.address;
-        const city = "Akaa";
+        const m = geoData.address.municipality || geoData.address.city || geoData.address.town || "Tuntematon";
+        const city = (m === "Akaa" || geoData.address.village === "Hukari") ? "Akaa" : m;
         
         
         

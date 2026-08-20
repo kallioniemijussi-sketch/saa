@@ -65,7 +65,7 @@
         const geoData = await geoRes.json();
         
         const addr = geoData.address;
-        const city = addr.village || addr.suburb || addr.neighbourhood || addr.town || addr.city || addr.municipality || "Akaa";
+        const city = addr.village || addr.town || addr.city || addr.municipality || "Akaa";
         const temp = Math.round(weatherData.current_weather.temperature);
         const code = weatherData.current_weather.weathercode;
         const desc = weatherCodes[code] || "";

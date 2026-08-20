@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      margin: 0;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      display: inline-block;
+      border-radius: 8px;
+    }
+    .weather-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .temp {
+      font-size: 22px;
+      color: #ffcc00;
+    }
+  </style>
+</head>
+<body>
+
+<div class="weather-box">
+  <span id="location">Haetaan sijaintia...</span>
+  <span id="temp" class="temp">--°C</span>
+  <span id="desc"></span>
+</div>
+
+<script>
+  const weatherCodes = {
+    0: "Selkeää",
+    1: "Melkein selkeää", 2: "Puolipilvistä", 3: "Pilvistä",
+    45: "Sumua", 48: "Huurresumua",
+    51: "Kevyttä tihkusadetta", 53: "Tihkusadetta", 55: "Tiheää tihkusadetta",
+    61: "Kevyttä sadetta", 63: "Sadetta", 65: "Rankkasadetta",
+    71: "Kevyttä lumisadetta", 73: "Lumisadetta", 75: "Sakeaa lumisadetta",
+    80: "Kevyitä kuuroja", 81: "Sadekuuroja", 82: "Rankkoja kuuroja",
+    95: "Ukkosta"
+  };
+
+  function updateWeather() {
+    if (!navigator.geolocation) {
+      document.getElementById('location').innerText = "GPS ei tuettu";
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      try {
+        // Hakee sään koordinaateilla
+        const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+        const weatherData = await weatherRes.json();
+        
+        // Hakee paikkakunnan nimen koordinaateilla
+        const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+        const geoData = await geoRes.json();
+        
+        const city = geoData.address.city || geoData.address.town || geoData.address.municipality || geoData.address.village || "Tuntematon";
+        const temp = Math.round(weatherData.current_weather.temperature);
+        const code = weatherData.current_weather.weathercode;
+        const desc = weatherCodes[code] || "";
+
+        document.getElementById('location').innerText = city;
+        document.getElementById('temp').innerText = `${temp}°C`;
+        document.getElementById('desc').innerText = desc;
+      } catch (err) {
+        document.getElementById('location').innerText = "Virhe haettaessa tietoja";
+      }
+    }, (error) => {
+      document.getElementById('location').innerText = "Sijainti estetty / ei saatavilla";
+    }, {
+      enableHighAccuracy: true,
+      timeout: 10000
+    });
+  }
+
+  // Päivitä heti ja sen jälkeen 10 min välein
+  updateWeather();
+  setInterval(updateWeather, 600000);
+</script>
+
+</body>
+</html>

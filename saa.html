@@ -34,7 +34,12 @@
 </div>
 
 <script>
-  
+  function getTimeString() {
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  return `${hours}:${minutes}`;
+}
     const weatherCodes = {
     0: "☀️ Selkeää",
     1: "🌤️ Melkein selkeää", 2: "⛅ Puolipilvistä", 3: "☁️ Pilvistä",

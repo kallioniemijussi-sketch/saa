@@ -77,7 +77,7 @@
         const code = weatherData.current_weather.weathercode;
         const desc = weatherCodes[code] || "";
         document.getElementById('location').innerText = "\uD83C\uDDEB\uD83C\uDDEE " + city;
-        document.getElementById('location').innerText = city;
+        
         document.getElementById('temp').innerText = `${temp}°C`;
         document.getElementById('desc').innerText = desc;
       } catch (err) {

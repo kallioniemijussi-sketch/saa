@@ -73,7 +73,7 @@
         const addr = geoData.address;
         const m = geoData.address.municipality || geoData.address.city || geoData.address.town || "Tuntematon";
         const city = (m === "Akaa" || geoData.address.village === "Hukari") ? "Akaa" : m;
-        document.getElementById('location').innerText = "🇫🇮 " + city + " | " + getTimeString();
+        document.getElementById('location').innerText = "FI " + city + " | " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         
         
         

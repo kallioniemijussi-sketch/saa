@@ -76,7 +76,7 @@
         const code = weatherData.current_weather.weathercode;
         const desc = weatherCodes[code] || "";
 
-        document.getElementById('location').innerText = 🇫🇮 ${city}, Suomi;
+        document.getElementById('location').innerText = `FI ${city}, Suomi`;
         document.getElementById('temp').innerText = `${temp}°C`;
         document.getElementById('desc').innerText = desc;
       } catch (err) {
